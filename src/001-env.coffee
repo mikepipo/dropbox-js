@@ -2,13 +2,11 @@ if typeof global isnt 'undefined' and typeof module isnt 'undefined' and
     'exports' of module
   # Running inside node.js.
   DbxEnvGlobal = global
-  DbxEnvRequire = module.require.bind module
   module.exports = Dropbox
 
 else if typeof window isnt 'undefined' and typeof navigator isnt 'undefined'
   # Running inside a browser.
   DbxEnvGlobal = window
-  DbxEnvRequire = null
   if window.Dropbox
     # Someone's stepping on our toes. It's most likely the Chooser library.
     do ->
@@ -19,7 +17,6 @@ else if typeof self isnt 'undefined' and typeof navigator isnt 'undefined'
   # Running inside a Web worker.
   DbxEnvGlobal = self
   # NOTE: browsers that implement Web Workers also implement the ES5 bind.
-  DbxEnvRequire = self.importScripts.bind self
   self.Dropbox = Dropbox
 
 else
@@ -37,4 +34,3 @@ class Dropbox.Env
   #
   # This is null in the browser. It is aliased to require in node.js and to
   # importScripts in Web Workers.
-  @require: DbxEnvRequire

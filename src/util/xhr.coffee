@@ -16,16 +16,6 @@ if Dropbox.Env.global.XMLHttpRequest
     DbxXhrCanSendForms = typeof FormData isnt 'undefined' and
       navigator.userAgent.indexOf('Firefox') is -1
   DbxXhrDoesPreflight = true
-else
-  # Node.js.
-  DbxXhrRequest = Dropbox.Env.require 'xhr2'  # We need an XHR emulation.
-  DbxXhrIeMode = false
-  # Node.js doesn't have FormData. We wouldn't want to bother putting together
-  # upload forms in node.js anyway, because it doesn't do CORS preflight
-  # checks, so we can use PUT requests without a performance hit.
-  DbxXhrCanSendForms = false
-  # Our XHR emulation skips CORS checks, which don't make sense for a server.
-  DbxXhrDoesPreflight = false
 
 if !Dropbox.Env.global.Uint8Array
   # IE <= 9
