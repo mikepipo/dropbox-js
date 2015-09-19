@@ -1,0 +1,24 @@
+{
+  "name": "dropbox-js",
+  "version": "0.10.3",
+  "homepage": "https://github.com/antelle/dropbox-js",
+  "authors": [
+    "Dropbox"
+  ],
+  "description": "Dropbox web build",
+  "main": "lib/dropbox.min.js",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "dropbox"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
