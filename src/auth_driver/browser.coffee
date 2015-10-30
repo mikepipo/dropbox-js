@@ -347,7 +347,8 @@ class Dropbox.AuthDriver.Popup extends Dropbox.AuthDriver.BrowserBase
   # @see Dropbox.AuthDriver#doAuthorize
   doAuthorize: (authUrl, stateParam, client, callback) ->
     @listenForMessage stateParam, callback
-    @openWindow authUrl
+    win = @openWindow authUrl
+    @checkClosed(win, callback)
 
   # The URL of the page that will receive the OAuth callback.
   #
@@ -379,6 +380,12 @@ class Dropbox.AuthDriver.Popup extends Dropbox.AuthDriver.BrowserBase
   # @return {DOMRef} reference to the opened window, or null if the call failed
   openWindow: (url) ->
     window.open url, '_dropboxOauthSigninWindow', @popupWindowSpec(980, 700)
+
+  checkClosed: (win, callback) ->
+    if (win.closed)
+      callback({ error: 'closed', error_description: 'Window closed by user' })
+    else
+      @checkClosedTimeout = setTimeout((=> @checkClosed(win, callback)), 300)
 
   # Spec string for window.open to create a nice popup.
   #
@@ -433,6 +440,8 @@ class Dropbox.AuthDriver.Popup extends Dropbox.AuthDriver.BrowserBase
         window.removeEventListener 'message', listener
         Dropbox.AuthDriver.Popup.onMessage.removeListener listener
         callback Dropbox.Util.Oauth.queryParamsFromUrl(data)
+        if @checkClosedTimeout
+          clearTimeout @checkClosedTimeout
     window.addEventListener 'message', listener, false
     Dropbox.AuthDriver.Popup.onMessage.addListener listener
 
