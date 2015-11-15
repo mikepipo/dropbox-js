@@ -1,6 +1,6 @@
-# OAuth driver that uses a Cordova InAppBrowser to complete the flow.
+# OAuth driver that uses a Electron InAppBrowser to complete the flow.
 class Dropbox.AuthDriver.Electron extends Dropbox.AuthDriver.BrowserBase
-  # Sets up an OAuth driver for Cordova applications.
+  # Sets up an OAuth driver for Electron applications.
   #
   # @param {Object} options (optional) one of the settings below
   # @option options {String} scope embedded in the localStorage key that holds
