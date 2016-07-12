@@ -27,17 +27,17 @@ class Dropbox.AuthDriver.Electron extends Dropbox.AuthDriver.BrowserBase
     closed = false
     win = window.require('electron').remote.app.openWindow({
       show: false,
-      'web-preferences': {
-        'node-integration': false,
-        'web-security': false,
-        'allow-displaying-insecure-content': true,
-        'allow-running-insecure-content': true
+      webPreferences: {
+        nodeIntegration: false,
+        webSecurity: false,
+        allowDisplayingInsecureContent: true,
+        allowRunningInsecureContent: true
       }
     })
     win.loadURL(authUrl)
     win.show()
     win.webContents.on 'did-finish-load', =>
-      url = win.webContents.getUrl()
+      url = win.webContents.getURL()
       if @locationStateParam(url) is stateParam
         return if closed
         closed = true
