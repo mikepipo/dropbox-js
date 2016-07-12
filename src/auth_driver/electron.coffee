@@ -25,7 +25,7 @@ class Dropbox.AuthDriver.Electron extends Dropbox.AuthDriver.BrowserBase
 # @see Dropbox.AuthDriver#doAuthorize
   doAuthorize: (authUrl, stateParam, client, callback) ->
     closed = false
-    win = window.require('remote').require('app').openWindow({
+    win = window.require('electron').remote.app.openWindow({
       show: false,
       'web-preferences': {
         'node-integration': false,
@@ -34,7 +34,7 @@ class Dropbox.AuthDriver.Electron extends Dropbox.AuthDriver.BrowserBase
         'allow-running-insecure-content': true
       }
     })
-    win.loadUrl(authUrl)
+    win.loadURL(authUrl)
     win.show()
     win.webContents.on 'did-finish-load', =>
       url = win.webContents.getUrl()
