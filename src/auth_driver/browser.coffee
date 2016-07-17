@@ -472,27 +472,27 @@ class Dropbox.AuthDriver.Popup extends Dropbox.AuthDriver.BrowserBase
   #
   # @return {void}
   @oauthReceiver: ->
-    window.addEventListener 'load', ->
-      pageUrl = window.location.href
-      message = JSON.stringify _dropboxjs_oauth_info: pageUrl
-      Dropbox.AuthDriver.BrowserBase.cleanupLocation()
-      opener = window.opener
-      if window.parent isnt window.top
-        opener or= window.parent
-      if opener
-        try
-          pageOrigin = window.location.origin or locationOrigin(pageUrl)
-          opener.postMessage message, pageOrigin
-          window.close()
-        catch ieError
-          # IE <= 9 doesn't support opener.postMessage for popup windows.
-        try
-          # postMessage doesn't work in IE, but direct object access does.
-          opener.Dropbox.AuthDriver.Popup.onMessage.dispatch message
-          window.close()
-        catch frameError
-          # Got nothing left to do.
-          # Leave the window opened so it can be debugged.
+#    window.addEventListener 'load', ->
+    pageUrl = window.location.href
+    message = JSON.stringify _dropboxjs_oauth_info: pageUrl
+    Dropbox.AuthDriver.BrowserBase.cleanupLocation()
+    opener = window.opener
+    if window.parent isnt window.top
+      opener or= window.parent
+    if opener
+      try
+        pageOrigin = window.location.origin or locationOrigin(pageUrl)
+        opener.postMessage message, pageOrigin
+        window.close()
+      catch ieError
+        # IE <= 9 doesn't support opener.postMessage for popup windows.
+      try
+        # postMessage doesn't work in IE, but direct object access does.
+        opener.Dropbox.AuthDriver.Popup.onMessage.dispatch message
+        window.close()
+      catch frameError
+        # Got nothing left to do.
+        # Leave the window opened so it can be debugged.
     return
 
   # Works around postMessage failures on Internet Explorer.
