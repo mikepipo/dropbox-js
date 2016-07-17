@@ -46,5 +46,5 @@ class Dropbox.AuthDriver.Electron extends Dropbox.AuthDriver.BrowserBase
     win.on 'closed', () =>
       win = null
       return if closed
-      callback new Dropbox.AuthError('error=access_denied&error_description=User+closed+browser+window')
+      callback new Dropbox.AuthError({ error: 'access_denied', error_description: 'User closed browser window' })
 
